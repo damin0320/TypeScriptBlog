@@ -1,36 +1,39 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import styled from "styled-components";
 // 스타일드 컴포넌트도 뭔가 새로 깔아야 함
 import { v4 as uuid } from 'uuid';
+import axios from 'axios'
+// axios 설치 및 import
 
 const Blog = () => {
+  interface A {
+    title: string;
+    content: string;
+    id:string;
+  }
+  // type 지정
 
   const contentInitialState = {title: "", content: ""}
   const [content, setContent] = useState(contentInitialState)
-  const [contentList, setContentList] = useState([{
-    // 따로 타입 지정 안해줬는데 알아서 타입을 찾아줌
-    id: uuid(),
-    // uuid 지정 차이
-    title: "날씨가 좋아요",
-    content: "오늘 날씨가 매우 맑아요"
-  },
-  {
-    id: uuid(),
-    title: "날씨가 안 좋아요",
-    content: "오늘 미세먼지가 많아서 안 맑아요"
-  },
-  {
-    id: uuid(),
-    title: "날씨가 매우 좋아요",
-    content: "오늘 날씨가 매우 맑아요 춥지도 않아요"
-  }, 
-])
+  const [contentList, setContentList] = useState<A[]>([])
+  const fetchContents = async () => {
+  const {data} = await axios.get('http://localhost:3001/contentList')
+  // data fetcing
+  setContentList(data)
+}
+  useEffect(() => {
+    fetchContents();
+  },[])
+  // 랜더링 위한 useEffect
+
 
   const addContent = () => {
     if(content.title === "" || content.content === "") {
       return alert("빈값은 등록할 수 없습니다!")
     }
     setContentList([...contentList, {...content, id:uuid()}])
+    axios.post('http://localhost:3001/contentList', content)
+    // post 위한 설정
     setContent(contentInitialState)
   }
 
@@ -48,7 +51,6 @@ const Blog = () => {
       [event.target.name] : event.target.value
     })
   }
-
 
   return (
     <div>
