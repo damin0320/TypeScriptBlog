@@ -83,7 +83,7 @@ const Blog = () => {
           <Post>
           <h4>{content.title}</h4>
           <p>{content.content}</p>
-          <button onClick={() => deleteContent(content.id)}>삭제</button>
+          <DelBtn onClick={() => deleteContent(content.id)}>삭제</DelBtn>
         </Post> 
         </Posts>
         )
@@ -144,4 +144,13 @@ border : 1px solid grey;
 width: 200px;
 height: 200px;
 overflow: auto;
+`
+
+const DelBtn = styled.button`
+  background-color: red;
+  color: white;
+  border : none;
+  border-radius: 15px;
+  padding: 10px;
+  cursor: pointer;
 `
