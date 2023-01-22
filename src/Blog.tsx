@@ -83,7 +83,15 @@ const Blog = () => {
           <Post>
           <h4>{content.title}</h4>
           <p>{content.content}</p>
-          <DelBtn onClick={() => deleteContent(content.id)}>삭제</DelBtn>
+          <DelBtn onClick={() => {
+          const result = window.confirm("이 작성글을 지우실꺼에요?")
+          if(result) {
+            return deleteContent(content.id);
+          }else{
+            return;
+          }
+        }
+          }>삭제</DelBtn>
         </Post> 
         </Posts>
         )
