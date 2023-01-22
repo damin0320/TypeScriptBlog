@@ -85,6 +85,7 @@ const Blog = () => {
           <p>{content.content}</p>
           <DelBtn onClick={() => {
           const result = window.confirm("이 작성글을 지우실꺼에요?")
+          // 글 지울것인지 아닐지 물어보기 기능 : 사용자 편의 증가
           if(result) {
             return deleteContent(content.id);
           }else{
