@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import styled from "styled-components";
 // 스타일드 컴포넌트도 뭔가 새로 깔아야 함
-import { v4 as uuid } from 'uuid';
 import axios from 'axios'
 // axios 설치 및 import
 
@@ -9,9 +8,11 @@ const Blog = () => {
   interface A {
     title: string;
     content: string;
-    id:string;
+    id:number;
   }
   // type 지정
+
+  let nextId = 0
 
   const contentInitialState = {title: "", content: ""}
   const [content, setContent] = useState(contentInitialState)
@@ -26,17 +27,18 @@ const Blog = () => {
   },[])
   // 랜더링 위한 useEffect
 
-
+  // 게시글 추가
   const addContent = () => {
     if(content.title === "" || content.content === "") {
       return alert("빈값은 등록할 수 없습니다!")
     }
-    setContentList([...contentList, {...content, id:uuid()}])
+    setContentList([...contentList, {...content, id:nextId + 1}])
     axios.post('http://localhost:3001/contentList', content)
     // post 위한 설정
     setContent(contentInitialState)
   }
 
+  // 게시글 input, textarea 변화 감지
   const changeInput = (event : React.ChangeEvent<HTMLInputElement>) => {
     // 타입스크립트와 자바스크립트의 이벤트 타입 지정 차이점
     setContent({
@@ -50,6 +52,14 @@ const Blog = () => {
       ...content,
       [event.target.name] : event.target.value
     })
+  }
+
+  // 게시물 삭제 => redux로 상태관리 안 하고 axios만 하면 꼭 get 해주기
+  // 타입 신경쓰기(uuid 안 쓰니 number로)
+  const deleteContent = async (contentId : number) => {
+    axios.delete(`http://localhost:3001/contentList/${contentId}`)
+    const { data } = await axios.get('http://localhost:3001/contentList')
+    setContentList(data)
   }
 
   return (
@@ -73,6 +83,7 @@ const Blog = () => {
           <Post>
           <h4>{content.title}</h4>
           <p>{content.content}</p>
+          <button onClick={() => deleteContent(content.id)}>삭제</button>
         </Post> 
         </Posts>
         )
