@@ -17,6 +17,13 @@ const Blog = () => {
   const contentInitialState = {title: "", content: ""}
   const [content, setContent] = useState(contentInitialState)
   const [contentList, setContentList] = useState<A[]>([])
+  // 수정
+  const [editContent, setEditContent] = useState({
+    title : "",
+    content:"",
+  });
+  const [toggle, setToggle] = useState(false);
+
   const fetchContents = async () => {
   const {data} = await axios.get('http://localhost:3001/contentList')
   // data fetcing
@@ -62,6 +69,23 @@ const Blog = () => {
     setContentList(data)
   }
 
+  // 글 수정하기
+  const onEditContent = async (contentId : number, title : string, content : string) => {
+    // 제목, 컨텐츠 같이 고칠 수 있게 하기
+    axios.put(`http://localhost:3001/contentList/${contentId}`, {
+      title,
+      content,
+    })
+    setToggle(false)
+    // 고친 후 토글 닫기
+    const { data } = await axios.get('http://localhost:3001/contentList')
+    setContentList(data)
+    // 새로고침 안 해도 나오게 get 처리
+  }
+    
+  const editToggle = () =>{
+    toggle ? setToggle(false) : setToggle(true);
+  }
   return (
     <div>
       <Layout>
@@ -93,6 +117,20 @@ const Blog = () => {
           }
         }
           }>삭제</DelBtn>
+          <button onClick={editToggle}>수정</button>
+          {toggle ? (
+            <div>
+              <input name='content' placeholder="수정하는 제목" onChange={(event) => {setEditContent({
+                ...editContent, title : event.target.value
+              })}}/>
+              {/* 제목 고치는 Input */}
+              <textarea name='content' placeholder="수정하는 내용" onChange={(event) => {setEditContent({
+                ...editContent, content : event.target.value
+              })}}/>
+              {/* // 내용 고치는 textarea */}
+              <button onClick={() => onEditContent(content.id, editContent.title, editContent.content)}>수정완료</button>
+            </div>
+          ) : null}
         </Post> 
         </Posts>
         )
