@@ -117,19 +117,20 @@ const Blog = () => {
           }
         }
           }>삭제</DelBtn>
-          <button onClick={editToggle}>수정</button>
+          <EditBtn onClick={editToggle}>수정</EditBtn>
           {toggle ? (
-            <div>
-              <input name='content' placeholder="수정하는 제목" onChange={(event) => {setEditContent({
+            <EditDiv>
+              <input name='content' placeholder="수정하는 제목(15자 이내)" maxLength={15} onChange={(event) => {setEditContent({
                 ...editContent, title : event.target.value
               })}}/>
               {/* 제목 고치는 Input */}
-              <textarea name='content' placeholder="수정하는 내용" onChange={(event) => {setEditContent({
+              <textarea name='content' placeholder="수정하는 내용(200자 이내)" maxLength={200} onChange={(event) => {setEditContent({
                 ...editContent, content : event.target.value
               })}}/>
               {/* // 내용 고치는 textarea */}
-              <button onClick={() => onEditContent(content.id, editContent.title, editContent.content)}>수정완료</button>
-            </div>
+              <br/>
+              <EditComBtn onClick={() => onEditContent(content.id, editContent.title, editContent.content)}>수정완료</EditComBtn>
+            </EditDiv>
           ) : null}
         </Post> 
         </Posts>
@@ -188,8 +189,8 @@ margin-top: 15px;
 margin-left: 15px;
 border-radius: 15px;
 border : 1px solid grey;
-width: 200px;
-height: 200px;
+width: 350px;
+height: 350px;
 overflow: auto;
 `
 
@@ -200,4 +201,36 @@ const DelBtn = styled.button`
   border-radius: 15px;
   padding: 10px;
   cursor: pointer;
+  margin-bottom: 15px;
+`
+
+const EditBtn = styled.button`
+  background-color: blue;
+  color: white;
+  border : none;
+  border-radius: 15px;
+  padding: 10px;
+  cursor: pointer; 
+`
+
+const EditComBtn = styled.button`
+  background-color: green;
+  color: white;
+  border : none;
+  border-radius: 15px;
+  padding: 10px;
+  cursor: pointer;
+  margin-top: 15px;   
+`
+
+const EditDiv = styled.div`
+  input {
+    width: 200px;
+    margin-bottom: 15px;
+  }
+
+  textarea {
+  width: 200px;
+  height: 100px;
+}
 `
