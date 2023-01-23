@@ -22,8 +22,6 @@ const Blog = () => {
     title : "",
     content:"",
   });
-  const [toggle, setToggle] = useState(false);
-
   const fetchContents = async () => {
   const {data} = await axios.get('http://localhost:3001/contentList')
   // data fetcing
@@ -82,9 +80,10 @@ const Blog = () => {
     setContentList(data)
     // 새로고침 안 해도 나오게 get 처리
   }
-    
-  const editToggle = () =>{
-    toggle ? setToggle(false) : setToggle(true);
+  // 토글값 설정
+  const [toggle, setToggle] = useState(false)
+  const toggleMenu = () => {
+      setToggle(!toggle)
   }
   return (
     <div>
@@ -117,7 +116,7 @@ const Blog = () => {
           }
         }
           }>삭제</DelBtn>
-          <EditBtn onClick={editToggle}>수정</EditBtn>
+          <EditBtn onClick={toggleMenu}>수정</EditBtn>
           {toggle ? (
             <EditDiv>
               <input name='content' placeholder="수정하는 제목(15자 이내)" maxLength={15} onChange={(event) => {setEditContent({
