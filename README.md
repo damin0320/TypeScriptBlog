@@ -1,6 +1,6 @@
 # 개인 토이 프로젝트 : TypeScript를 이용한 게시판 형 블로그 만들기
 
-<img src="/Users/daminan/Desktop/my-blog/src/asset/finish.png">
+<img src="src/asset/finish.png">
 
 ## 프로젝트 소개
 
