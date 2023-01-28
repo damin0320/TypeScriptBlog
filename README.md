@@ -15,7 +15,7 @@
 
 ## 기술 스택
 
-HTML / CSS / TypeScript / React / Axios/ dbJson /git / gitHub
+HTML / CSS / TypeScript / React / Axios/ dbJson / styledComponent /git / gitHub
 
 <br>
 
