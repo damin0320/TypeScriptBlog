@@ -5,25 +5,16 @@ import axios from 'axios'
 // axios 설치 및 import
 import MyPost from './MyPost';
 import {Content} from './interfaces'
+// 만든 컴포넌트 import
+
 
 const Blog = () => {
-  // interface A {
-  //   title: string;
-  //   content: string;
-  //   id:number;
-  // }
-  // // type 지정
 
   let nextId = 0
 
   const contentInitialState = {title: "", content: ""}
   const [content, setContent] = useState(contentInitialState)
   const [contentList, setContentList] = useState<Content[]>([])
-  // 수정
-  // const [editContent, setEditContent] = useState({
-  //   title : "",
-  //   content:"",
-  // });
   const fetchContents = async () => {
   const {data} = await axios.get('http://localhost:3001/contentList')
   // data fetcing
@@ -77,8 +68,6 @@ const Blog = () => {
       content : content.content
 
     })
-    // setToggle(false)
-    // 고친 후 토글 닫기
     const { data } = await axios.get('http://localhost:3001/contentList')
     setContentList(data)
     // 새로고침 안 해도 나오게 get 처리
@@ -102,13 +91,14 @@ const Blog = () => {
       {contentList.map((content) => {
         return (
           <Posts>
-            <MyPost content={content}
-            key = {content.id}
-            handleDelete = {deleteContent}
-            handleSave={onEditContent}/>
           <Post>
           <h4>{content.title}</h4>
           <p>{content.content}</p>
+          <MyPost content={content}
+            key = {content.id}
+            handleDelete = {deleteContent}
+            handleSave={onEditContent}/>
+            {/* props로 전달할 값 정하기 */}
         </Post> 
         </Posts>
         )
